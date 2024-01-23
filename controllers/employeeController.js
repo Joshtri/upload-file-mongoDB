@@ -36,29 +36,47 @@ const Store = (req,res, next)=>{
     })
 }
 
+const handleDatabaseError = (res, error) => {
+    if (error.name === 'MongooseTimeoutError') {
+        res.status(500).send("Database operation timed out");
+    } else {
+        console.error("Error reading data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+
 
 const ReadData = async (req, res) => {
     let perPage = 12;
     let page = req.query.page || 1;
     try {
-        const employees = await Employee.aggregate([{ $sort: { createdAt: -1 } }])
-        .skip(perPage * page - perPage)
-        .limit(perPage)
-        .exec();
+        const totalEmployees = await Employee.countDocuments({});
+        const totalPages = Math.ceil(totalEmployees / perPage);
 
-        // Beri nama variabel lokal untuk ditampilkan di template
+        if (page < 1 || page > totalPages) {
+            return res.status(404).send("Page not found");
+        }
+
+        const employees = await Employee.find({})
+            .sort({ createdAt: -1 })
+            .skip(perPage * page - perPage)
+            .limit(perPage)
+            .exec();
+
         const locals = {
             title: "Data Employee",
-            employees: employees // mengirim data employee ke template
+            employees: employees,
+            totalPages: totalPages,
+            currentPage: page
         };
 
-        // Render template dan kirim data lokal
         res.render('data_employee', locals);
     } catch (error) {
-        console.error("Error reading data:", error);
-        res.status(500).send("Internal Server Error");
+        handleDatabaseError(res, error);
     }
 };
+
 
 
 module.exports = {
