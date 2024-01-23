@@ -9,6 +9,10 @@ const upload = require("../middleware/uploads");
 router.post('/store', upload.single('avatar'),Store)
 router.get('/data-employee', ReadData)
 
+router.get('/testaja', (req,res)=>{
+    res.send('test');
+})
+
 
 
 // Rute API untuk menampilkan foto berdasarkan nama file
