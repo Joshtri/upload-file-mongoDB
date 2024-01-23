@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= locals.title %></title>
+</head>
+<body>
+    <% employees.forEach(employee => { %>
+        <div>
+            <h2><%= employee.name %></h2>
+            <p>Designation: <%= employee.designation %></p>
+            <p>Email: <%= employee.email %></p>
+            <p>Phone: <%= employee.phone %></p>
+            <p>Age: <%= employee.age %></p>
+
+            <!-- Menampilkan avatar (foto) -->
+            <% if (employee.avatar) { %>
+                <img src="/<%= employee.avatar %>" style="width: 512px; height: 256px;" alt="<%= employee.name %> Avatar">
+            <% } else { %>
+                <!-- Tampilkan pesan jika tidak ada avatar -->
+                <p>No avatar available</p>
+            <% } %>
+        </div>
+    <% }) %>
+
+</body>
+</html>
