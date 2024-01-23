@@ -38,9 +38,13 @@ const Store = (req,res, next)=>{
 
 
 const ReadData = async (req, res) => {
+    let perPage = 12;
+    let page = req.query.page || 1;
     try {
-        // Ambil data employee dari database
-        const employees = await Employee.find();
+        const employees = await Employee.aggregate([{ $sort: { createdAt: -1 } }])
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec();
 
         // Beri nama variabel lokal untuk ditampilkan di template
         const locals = {
