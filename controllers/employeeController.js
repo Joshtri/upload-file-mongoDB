@@ -2,7 +2,7 @@ const Employee = require('../models/Employee')
 
 
 //add new employee
-const Store = (req,res, next)=>{
+exports.Store = (req,res, next)=>{
     /*
         name 
         designation
@@ -46,8 +46,13 @@ const handleDatabaseError = (res, error) => {
 };
 
 
+exports.testAjapage = (req,res)=>{
+    res.render('testpage');
+}
 
-const ReadData = async (req, res) => {
+
+
+exports.ReadData = async (req, res) => {
     let perPage = 12;
     let page = req.query.page || 1;
     try {
@@ -81,9 +86,3 @@ const ReadData = async (req, res) => {
 };
 
 
-
-
-module.exports = {
-    Store: Store,
-    ReadData
-};

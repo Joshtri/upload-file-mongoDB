@@ -1,17 +1,16 @@
 const express  = require('express');
 const router = express.Router();
-const { Store, ReadData } = require('../controllers/employeeController');
+const { Store, ReadData, testAjapage } = require('../controllers/employeeController');
 
 const upload = require("../middleware/uploads");
 
 
 
-router.post('/store', upload.single('avatar'),Store)
-router.get('/data-employee', ReadData)
+router.post('/store', upload.single('avatar'), Store);
+router.get('/data-employee', ReadData);
 
-router.get('/testaja', (req,res)=>{
-    res.send('test');
-})
+router.get('/testaja',testAjapage);
+
 
 
 
