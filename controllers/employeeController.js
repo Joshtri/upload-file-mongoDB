@@ -71,8 +71,10 @@ const ReadData = async (req, res) => {
             currentPage: page
         };
 
-        res.render('data_employee', locals,
-        employees);
+        res.render('data_employee',{
+            locals,
+            employees
+        });
     } catch (error) {
         handleDatabaseError(res, error);
     }
